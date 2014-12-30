@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+complete: &default
+    amount: 10000
+    description: 'Expensive expense'
+    loaner: complete
+    collector: complete
+
+missing_amount:
+    <<: *default
+    amount:
+
+missing_description:
+    <<: *default
+    description:
+
+missing_loaner:
+    <<: *default
+    loaner:
+
+missing_collector:
+    <<: *default
+    collector:

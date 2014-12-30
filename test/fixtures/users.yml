@@ -1,0 +1,18 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+complete: &default
+    email: 'foo@bar.com'
+    given_name: 'Given name'
+    last_name: 'Last name'
+
+missing_last_name:
+    <<: *default
+    last_name:
+
+missing_given_name:
+    <<: *default
+    given_name:
+
+missing_email:
+    <<: *default
+    email:
