@@ -1,6 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 complete: &default
+    uuid: '508bb6b3-b922-4414-a7cb-f5fbda7c6123'
+    secret: 'e816a77a-0f95-4bc8-bb27-36be63dd11dd'
     email: 'foo@bar.com'
     given_name: 'Given name'
     last_name: 'Last name'
