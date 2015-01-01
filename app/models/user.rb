@@ -12,4 +12,11 @@ class User < ActiveRecord::Base
         self.uuid ||= SecureRandom.uuid
         self.secret ||= SecureRandom.uuid
     end
+
+    def as_json
+      super(
+        :except => [:id, :secret]
+      )
+
+    end
 end
