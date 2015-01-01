@@ -8,7 +8,14 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "should return all users when GET index" do
     expected = User.all.order(:uuid).as_json(
-      :only => [:uuid, :given_name, :last_name, :email, :created_at, :updated_at]
+      :only => [
+        :uuid,
+        :given_name,
+        :last_name,
+        :email,
+        :created_at,
+        :updated_at
+      ]
     )
     get :index
     users = JSON.parse(response.body)

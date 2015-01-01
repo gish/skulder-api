@@ -1,7 +1,14 @@
 class Api::UsersController < ApplicationController
   def index
     users = User.all.order(:uuid).as_json(
-      :only => [:uuid, :given_name, :last_name, :email, :created_at, :updated_at]
+      :only => [
+        :uuid,
+        :given_name,
+        :last_name,
+        :email,
+        :created_at,
+        :updated_at
+      ]
     )
     render :json => users
   end
