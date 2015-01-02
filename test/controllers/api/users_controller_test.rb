@@ -24,18 +24,10 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "should create new user when POST valid user" do
     # given
-    given_name = 'Jane'
-    last_name = 'Doe'
-    email = 'jane@doe.com'
-
-    new_user = User.new(
-      :given_name => given_name,
-      :last_name => last_name,
-      :email => email
-    ).as_json
+    new_user = users(:complete).as_json
 
     # when
-    post :create, user: new_user
+    post :create, new_user
 
     # then
     returned_user = JSON.parse(response.body)
