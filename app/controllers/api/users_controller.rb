@@ -17,11 +17,10 @@ class Api::UsersController < ApplicationController
       render json: error_body, status: 400
       return
     end
-
     user = User.new(user_params)
     user.save
 
-    render :json => user.as_json
+    render :location => api_user_url(user.uuid)
   end
 
   def destroy

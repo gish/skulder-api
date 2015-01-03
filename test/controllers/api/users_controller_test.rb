@@ -15,13 +15,16 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "should create new user when POST valid user" do
     # given
-    new_user = users(:complete)
+    new_user = users(:new)
     # when
     post :create, new_user.as_json
     # then
     created_user = User.where(:email => new_user.email).take
     assert_response :success
     assert_equal(new_user.email, created_user.email)
+    # FIXME: Make this test work
+    #location = response.location
+    #assert_equal(api_user_url(new_user.uuid), location)
   end
 
   test "should return 400 when POST with last name missing" do
@@ -37,8 +40,8 @@ class Api::UsersControllerTest < ActionController::TestCase
     assert_equal expected_type, response_json['type']
   end
 
-  test "should get destroy" do
-    get :destroy
+  test "should delete destroy" do
+    delete :destroy, {'id' => 1}
     assert_response :success
   end
 
@@ -47,8 +50,8 @@ class Api::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get update" do
-    get :update
+  test "should patch update" do
+    patch :update, {'id' => 1}
     assert_response :success
   end
 
