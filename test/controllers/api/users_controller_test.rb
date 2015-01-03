@@ -35,6 +35,19 @@ class Api::UsersControllerTest < ActionController::TestCase
     assert_user_as_json new_user, returned_user
   end
 
+  test "should return 400 when POST with last name missing" do
+    # given
+    new_user = users(:missing_last_name)
+    expected_response = 400
+    expected_type = "missing_parameter"
+    # when
+    post :create, new_user.as_json
+    # then
+    response_json = JSON.parse(response.body)
+    assert_response expected_response
+    assert_equal expected_type, response_json['type']
+  end
+
   test "should get destroy" do
     get :destroy
     assert_response :success
