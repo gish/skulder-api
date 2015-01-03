@@ -1,15 +1,6 @@
 require 'test_helper'
 
 class Api::UsersControllerTest < ActionController::TestCase
-  def assert_user_as_json(expected, actual)
-    expected['created_at'] = nil
-    expected['updated_at'] = nil
-    actual['created_at'] = nil
-    actual['updated_at'] = nil
-    actual['uuid'] = expected['uuid']
-    assert_equal expected, actual
-  end
-
   test "should get index" do
     get :index
     assert_response :success
@@ -24,15 +15,13 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "should create new user when POST valid user" do
     # given
-    new_user = users(:complete).as_json
-
+    new_user = users(:complete)
     # when
-    post :create, new_user
-
+    post :create, new_user.as_json
     # then
-    returned_user = JSON.parse(response.body)
+    created_user = User.where(:email => new_user.email).take
     assert_response :success
-    assert_user_as_json new_user, returned_user
+    assert_equal(new_user.email, created_user.email)
   end
 
   test "should return 400 when POST with last name missing" do
