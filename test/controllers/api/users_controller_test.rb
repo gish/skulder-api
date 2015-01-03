@@ -15,7 +15,7 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "should create new user when POST valid user" do
     # given
-    new_user = users(:new)
+    new_user = users(:complete)
     # when
     post :create, new_user.as_json
     # then
@@ -48,6 +48,20 @@ class Api::UsersControllerTest < ActionController::TestCase
   test "should get show" do
     get :show, {'id' => 1}
     assert_response :success
+  end
+
+  test "should GET user when show" do
+    # given
+    expected_user = users(:complete)
+    # when
+    get :show, {'id' => users(:complete).uuid}
+    # then
+    returned_user = JSON.parse(response.body)
+    puts returned_user
+    assert_equal(expected_user.uuid, returned_user['uuid'])
+    assert_equal(expected_user.given_name, returned_user['given_name'])
+    assert_equal(expected_user.last_name, returned_user['last_name'])
+    assert_equal(expected_user.email, returned_user['email'])
   end
 
   test "should patch update" do

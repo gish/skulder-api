@@ -27,6 +27,9 @@ class Api::UsersController < ApplicationController
   end
 
   def show
+    uuid = params[:id]
+    user = User.where(:uuid => uuid).take
+    render :json => user.as_json
   end
 
   def update
