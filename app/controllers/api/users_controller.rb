@@ -38,6 +38,14 @@ class Api::UsersController < ApplicationController
   def show
     uuid = params[:id]
     user = User.where(:uuid => uuid).take
+    if user.blank?
+      render_error(
+        'user_not_found',
+        "User #{uuid} doesn't exist",
+        400
+      )
+      return
+    end
     render :json => user.as_json
   end
 

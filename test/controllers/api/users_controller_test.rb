@@ -60,11 +60,6 @@ class Api::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get show" do
-    get :show, {'id' => 1}
-    assert_response :success
-  end
-
   test "should GET user when show" do
     # given
     expected_user = users(:complete)
@@ -72,10 +67,23 @@ class Api::UsersControllerTest < ActionController::TestCase
     get :show, {'id' => users(:complete).uuid}
     # then
     returned_user = JSON.parse(response.body)
+    assert_response :success
     assert_equal(expected_user.uuid, returned_user['uuid'])
     assert_equal(expected_user.given_name, returned_user['given_name'])
     assert_equal(expected_user.last_name, returned_user['last_name'])
     assert_equal(expected_user.email, returned_user['email'])
+  end
+
+  test "should show error when GET non existing user" do
+    # given
+    expected_response = 400
+    expected_type = 'user_not_found'
+    # when
+    get :show, {'id' => 'not-valid'}
+    # then
+    response_json = JSON.parse(response.body)
+    assert_response expected_response
+    assert_equal expected_type, response_json['type']
   end
 
   test "should patch update" do
