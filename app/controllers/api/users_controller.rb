@@ -60,12 +60,4 @@ class Api::UsersController < ApplicationController
         :email
       )
     end
-
-    def render_error(type, description, code)
-      error_body = {
-        type: type,
-        description: description
-      }
-      render json: error_body, status: code
-    end
 end
