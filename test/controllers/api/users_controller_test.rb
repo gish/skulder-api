@@ -24,7 +24,7 @@ class Api::UsersControllerTest < ActionController::TestCase
     post :create, new_user.as_json
     # then
     location = response.location
-    assert_response :success
+    assert_response 201
     assert(User.exists?(:email => new_user.email))
     assert_equal(api_user_url(User.where(:email => new_user.email).take.uuid), location)
   end

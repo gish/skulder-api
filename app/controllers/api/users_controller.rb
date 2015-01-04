@@ -29,7 +29,7 @@ class Api::UsersController < ApplicationController
     user = User.new(user_params)
     user.save
 
-    render json: user.as_json, location: api_user_url(user.uuid)
+    render json: user.as_json, location: api_user_url(user.uuid), status: 201
   end
 
   def destroy
