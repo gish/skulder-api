@@ -10,17 +10,26 @@ class Api::UsersController < ApplicationController
       params.require(:given_name)
       params.require(:last_name)
     rescue => e
-      error_body = {
-        type: "missing_parameter",
-        description: "Missing parameter #{e.param}"
-      }
-      render json: error_body, status: 400
+      render_error(
+        'missing_parameter',
+        "Missing parameter #{e.param}",
+        400
+      )
       return
     end
+    if User.exists?(:email => params[:email])
+      render_error(
+        'email_exists',
+        "User with e-mail address #{params[:email]} already exists",
+        406
+      )
+      return
+    end
+
     user = User.new(user_params)
     user.save
 
-    render :location => api_user_url(user.uuid)
+    render json: user.as_json, location: api_user_url(user.uuid)
   end
 
   def destroy
@@ -42,5 +51,13 @@ class Api::UsersController < ApplicationController
         :last_name,
         :email
       )
+    end
+
+    def render_error(type, description, code)
+      error_body = {
+        type: type,
+        description: description
+      }
+      render json: error_body, status: code
     end
 end
