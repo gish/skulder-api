@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::DebtsController, :type => :controller do
-  fixtures :users
+  fixtures :users, :debts
 
   describe 'POST' do
     before(:each) do
@@ -114,6 +114,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       # given
       user = users(:alice)
       debts = Debt.where(:collector => user)
+      puts debts
       expected_debts_uuids = debts.map {|debt| debt.uuid}
       # when
       get :index, { collector: user.uuid }

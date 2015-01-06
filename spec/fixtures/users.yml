@@ -9,11 +9,13 @@ complete: &default
 
 alice:
     <<: *default
+    uuid: <%= SecureRandom.uuid %>
     email: 'alice@bar.com'
     given_name: 'Alice'
 
 bob:
     <<: *default
+    uuid: <%= SecureRandom.uuid %>
     email: 'bob@bar.com'
     given_name: 'Bob'
 

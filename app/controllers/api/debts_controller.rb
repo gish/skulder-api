@@ -46,9 +46,24 @@ class Api::DebtsController < ApplicationController
   end
 
   def index
-    loaner_uuid = params[:loaner]
-    loaner = User.where(:uuid => loaner_uuid)
-    debts = Debt.where(:loaner => loaner)
+    debts = []
+
+    if params[:loaner]
+      loaner = User.where(:uuid => params[:loaner])
+    end
+    if params[:collector]
+      collector = User.where(:uuid => params[:collector])
+    end
+
+    if collector
+      puts Debt.where(:collector => collector).to_sql
+      debts = Debt.where(:collector => collector)
+    end
+
+    if loaner
+      debts = Debt.where(:loaner => loaner)
+    end
+
     render json: debts
   end
 end
