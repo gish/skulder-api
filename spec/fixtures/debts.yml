@@ -1,0 +1,18 @@
+complete: &default
+    uuid: <%= SecureRandom.uuid %>
+    description: 'Expense 1'
+    amount: 10000
+    loaner: alice
+    collector: bob
+
+alice_owes_bob:
+    <<: *default
+    description: "Alice's car maintenance"
+    loaner: alice
+    collector: bob
+
+bob_owes_alice:
+    <<: *default
+    description: "Bob's frying pan"
+    loaner: bob
+    collector: alice

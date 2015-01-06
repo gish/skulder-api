@@ -7,6 +7,16 @@ complete: &default
     given_name: 'Given name'
     last_name: 'Last name'
 
+alice:
+    <<: *default
+    email: 'alice@bar.com'
+    given_name: 'Alice'
+
+bob:
+    <<: *default
+    email: 'bob@bar.com'
+    given_name: 'Bob'
+
 missing_last_name:
     <<: *default
     uuid: <%= SecureRandom.uuid %>

@@ -44,4 +44,11 @@ class Api::DebtsController < ApplicationController
     debt.save
     render json: debt.as_json, status: 201, location: api_debt_url(:id => debt.uuid)
   end
+
+  def index
+    loaner_uuid = params[:loaner]
+    loaner = User.where(:uuid => loaner_uuid)
+    debts = Debt.where(:loaner => loaner)
+    render json: debts
+  end
 end

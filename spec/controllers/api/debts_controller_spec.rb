@@ -96,8 +96,34 @@ RSpec.describe Api::DebtsController, :type => :controller do
 
   describe 'GET' do
     it 'should return error when loaner or collector not given'
-    it 'should return debts when loaner given'
-    it 'should return debts when collector given'
+    it 'should return debts when loaner given' do
+      # given
+      user = users(:alice)
+      debts = Debt.where(:loaner => user)
+      expected_debts_uuids = debts.map {|debt| debt.uuid}
+      # when
+      get :index, { loaner: user.uuid }
+      # then
+      given_debts = JSON.parse(response.body)
+      given_debts_uuids = given_debts.map {|debt| debt['uuid']}
+      given_debts_uuids.sort!
+      expect(given_debts_uuids).to match_array(expected_debts_uuids)
+      expect(given_debts_uuids.length).not_to be(0)
+    end
+    it 'should return debts when collector given' do
+      # given
+      user = users(:alice)
+      debts = Debt.where(:collector => user)
+      expected_debts_uuids = debts.map {|debt| debt.uuid}
+      # when
+      get :index, { collector: user.uuid }
+      # then
+      given_debts = JSON.parse(response.body)
+      given_debts_uuids = given_debts.map {|debt| debt['uuid']}
+      given_debts_uuids.sort!
+      expect(given_debts_uuids).to match_array(expected_debts_uuids)
+      expect(given_debts_uuids.length).not_to be(0)
+    end
     it 'should return debts when loaner and collector given'
   end
 end
