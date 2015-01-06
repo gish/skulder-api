@@ -114,7 +114,6 @@ RSpec.describe Api::DebtsController, :type => :controller do
       # given
       user = users(:alice)
       debts = Debt.where(:collector => user)
-      puts debts
       expected_debts_uuids = debts.map {|debt| debt.uuid}
       # when
       get :index, { collector: user.uuid }
@@ -125,6 +124,27 @@ RSpec.describe Api::DebtsController, :type => :controller do
       expect(given_debts_uuids).to match_array(expected_debts_uuids)
       expect(given_debts_uuids.length).not_to be(0)
     end
-    it 'should return debts when loaner and collector given'
+
+    it 'should return debts when loaner and collector given' do
+      # given
+      collector = users(:alice)
+      loaner = users(:bob)
+      debts = Debt.where(
+        :collector => collector,
+        :loaner => loaner
+      )
+      expected_debts_uuids = debts.map {|debt| debt.uuid}
+      # when
+      get :index, {
+        collector: collector.uuid,
+        loaner: loaner.uuid
+      }
+      # then
+      given_debts = JSON.parse(response.body)
+      given_debts_uuids = given_debts.map {|debt| debt['uuid']}
+      given_debts_uuids.sort!
+      expect(given_debts_uuids).to match_array(expected_debts_uuids)
+      expect(given_debts_uuids.length).not_to be(0)
+    end
   end
 end

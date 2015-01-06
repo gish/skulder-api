@@ -56,12 +56,18 @@ class Api::DebtsController < ApplicationController
     end
 
     if collector
-      puts Debt.where(:collector => collector).to_sql
       debts = Debt.where(:collector => collector)
     end
 
     if loaner
       debts = Debt.where(:loaner => loaner)
+    end
+
+    if collector && loaner
+      debts = Debt.where(
+        :collector => collector,
+        :loaner => loaner
+      )
     end
 
     render json: debts
