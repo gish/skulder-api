@@ -9,7 +9,7 @@ class Api::DebtsController < ApplicationController
       render_error(
         'missing_parameter',
         "Missing parameter #{e.param}",
-        403
+        400
       )
       return
     end
@@ -21,7 +21,7 @@ class Api::DebtsController < ApplicationController
       render_error(
         'loaner_missing',
         "Loaner #{params[:loaner]} doesn't exist",
-        403
+        400
       )
       return
     end
@@ -30,7 +30,7 @@ class Api::DebtsController < ApplicationController
       render_error(
         'collector_missing',
         "Collector #{params[:collector]} doesn't exist",
-        403
+        400
       )
       return
     end

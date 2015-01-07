@@ -29,7 +29,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
 
@@ -53,7 +53,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Api::DebtsController, :type => :controller do
       post :create, @debt
       # then
       message = JSON.parse(response.body)
-      expect(response.status).to eql(403)
+      expect(response.status).to eql(400)
       expect(message['type']).to eql(expected_type)
     end
   end
