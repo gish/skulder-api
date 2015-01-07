@@ -46,7 +46,13 @@ class Api::DebtsController < ApplicationController
   end
 
   def index
-    debts = []
+    if params[:loaner].blank? && params[:collector].blank?
+      render_error(
+        'missing_collector_or_loaner',
+        'At least one of collector or loaner must be passed',
+        400
+      ) and return
+    end
 
     if params[:loaner]
       loaner = User.where(:uuid => params[:loaner])

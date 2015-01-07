@@ -95,7 +95,15 @@ RSpec.describe Api::DebtsController, :type => :controller do
   end
 
   describe 'GET' do
-    it 'should return error when loaner or collector not given'
+    it 'should return error when loaner or collector not given' do
+      # given
+      expected_status = 400
+      # when
+      get :index
+      # then
+      expect(response.status).to eql(expected_status)
+    end
+
     it 'should return debts when loaner given' do
       # given
       user = users(:alice)
