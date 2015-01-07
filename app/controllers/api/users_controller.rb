@@ -14,16 +14,14 @@ class Api::UsersController < ApplicationController
         'missing_parameter',
         "Missing parameter #{e.param}",
         400
-      )
-      return
+      ) and return
     end
     if User.exists?(:email => params[:email])
       render_error(
         'email_exists',
         "User with e-mail address #{params[:email]} already exists",
         406
-      )
-      return
+      ) and return
     end
 
     user = User.new(user_params)
@@ -43,8 +41,7 @@ class Api::UsersController < ApplicationController
         'user_not_found',
         "User #{uuid} doesn't exist",
         400
-      )
-      return
+      ) and return
     end
     render :json => user.as_json
   end

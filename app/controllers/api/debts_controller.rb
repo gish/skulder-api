@@ -10,8 +10,7 @@ class Api::DebtsController < ApplicationController
         'missing_parameter',
         "Missing parameter #{e.param}",
         400
-      )
-      return
+      ) and return
     end
 
     loaner = User.where(:uuid => params[:loaner]).take
@@ -22,8 +21,7 @@ class Api::DebtsController < ApplicationController
         'loaner_missing',
         "Loaner #{params[:loaner]} doesn't exist",
         400
-      )
-      return
+      ) and return
     end
 
     if not collector
@@ -31,8 +29,7 @@ class Api::DebtsController < ApplicationController
         'collector_missing',
         "Collector #{params[:collector]} doesn't exist",
         400
-      )
-      return
+      ) and return
     end
 
     debt = Debt.new(
