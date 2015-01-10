@@ -1,7 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe Api::TransactionsController, :type => :controller do
-  fixtures :users, :transactions
+  fixtures :users, :transactions, :api_keys
+
+  before (:each) do
+    @app_one = api_keys(:app_one)
+    @alice = users(:alice)
+  end
+
+  describe 'Authorization' do
+    it 'should return error when user secret invalid' do
+      # given
+      expected_status = 401
+      # when
+      get :index, {
+        :api_key => @app_one.access_token
+      }
+      # then
+      expect(response.status).to eql(expected_status)
+    end
+
+    it 'should return error when api key invalid' do
+      # given
+      expected_status = 401
+      # when
+      get :index, {
+        :user_secret => @alice.secret
+      }
+      # then
+      expect(response.status).to eql(expected_status)
+    end
+  end
 
   describe 'POST' do
     before(:each) do
@@ -9,7 +38,9 @@ RSpec.describe Api::TransactionsController, :type => :controller do
         :balance => 1000,
         :description => 'Foo bar',
         :sender => users(:complete).uuid,
-        :recipient => users(:complete).uuid
+        :recipient => users(:complete).uuid,
+        :user_secret => @alice.secret,
+        :api_key => @app_one.access_token
       }
     end
 
@@ -20,6 +51,7 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       expect(response.status).to eql(201)
       expect(response.location).to eql(api_transaction_url(:id => Transaction.order(created_at: :desc).take.uuid))
     end
+
 
     it 'should output error when balance missing' do
       # given
@@ -99,7 +131,10 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       # given
       expected_status = 400
       # when
-      get :index
+      get :index, {
+        :user_secret => @alice.secret,
+        :api_key => @app_one.access_token
+      }
       # then
       expect(response.status).to eql(expected_status)
     end
@@ -110,7 +145,11 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       transactions = Transaction.where(:recipient => user)
       expected_transactions_uuids = transactions.map {|transaction| transaction.uuid}
       # when
-      get :index, { recipient: user.uuid }
+      get :index, {
+        :recipient => user.uuid,
+        :api_key => @app_one.access_token,
+        :user_secret => @alice.secret
+      }
       # then
       given_transactions = JSON.parse(response.body)
       given_transactions_uuids = given_transactions.map {|transaction| transaction['uuid']}
@@ -118,13 +157,18 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       expect(given_transactions_uuids).to match_array(expected_transactions_uuids)
       expect(given_transactions_uuids.length).not_to be(0)
     end
+
     it 'should return transactions when sender given' do
       # given
       user = users(:alice)
       transactions = Transaction.where(:sender => user)
       expected_transactions_uuids = transactions.map {|transaction| transaction.uuid}
       # when
-      get :index, { sender: user.uuid }
+      get :index, {
+        :sender => user.uuid,
+        :api_key => @app_one.access_token,
+        :user_secret => @alice.secret
+      }
       # then
       given_transactions = JSON.parse(response.body)
       given_transactions_uuids = given_transactions.map {|transaction| transaction['uuid']}
@@ -145,7 +189,9 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       # when
       get :index, {
         sender: sender.uuid,
-        recipient: recipient.uuid
+        recipient: recipient.uuid,
+        :api_key => @app_one.access_token,
+        :user_secret => @alice.secret
       }
       # then
       given_transactions = JSON.parse(response.body)

@@ -1,4 +1,6 @@
 class Api::TransactionsController < ApplicationController
+  before_filter :restrict_access
+
   def create
     begin
       params.require(:balance)
@@ -75,4 +77,16 @@ class Api::TransactionsController < ApplicationController
 
     render json: transactions
   end
+
+  private
+    def restrict_access
+      user_exists = User.exists?(:secret => params[:user_secret])
+      api_key_exists = ApiKey.exists?(:access_token => params[:api_key])
+
+      render_error(
+        'invalid_user',
+        'User secret or access token invalid',
+        401
+      ) unless (user_exists and api_key_exists)
+    end
 end
