@@ -2,12 +2,46 @@ require 'rails_helper'
 require 'spec_helper'
 
 describe Api::UsersController, :type => :controller do
-  fixtures :users
+  fixtures :users, :api_keys
+
+  before (:each) do
+    @alice = users(:alice)
+    @app_one = api_keys(:app_one)
+  end
+
+
+  describe 'Authorization' do
+    it 'should return error when user secret invalid' do
+      # given
+      expected_status = 401
+      # when
+      get :index, {
+        :api_key => @app_one.access_token
+      }
+      # then
+      expect(response.status).to eql(expected_status)
+    end
+
+    it 'should return error when api key invalid' do
+      # given
+      expected_status = 401
+      # when
+      get :index, {
+        :user_secret => @alice.secret
+      }
+      # then
+      expect(response.status).to eql(expected_status)
+    end
+  end
 
   describe 'Get all users' do
     it 'should get all users when no uuid given' do
       expected = User.all.order(:uuid).as_json
-      get :index
+      get :index, {
+        'user_secret' => @alice.secret,
+        'api_key' => @app_one.access_token
+      }
+
       users = JSON.parse(response.body)
       expect(users.length).to be(expected.length)
     end
@@ -16,7 +50,11 @@ describe Api::UsersController, :type => :controller do
       # given
       expected_user = users(:complete)
       # when
-      get :show, {'id' => users(:complete).uuid}
+      get :show, {
+        'id' => users(:complete).uuid,
+        'user_secret' => @alice.secret,
+        'api_key' => @app_one.access_token
+      }
       # then
       returned_user = JSON.parse(response.body)
       assert_response :success
@@ -31,7 +69,11 @@ describe Api::UsersController, :type => :controller do
       expected_response = 400
       expected_type = 'user_not_found'
       # when
-      get :show, {'id' => 'not-valid'}
+      get :show, {
+        'id' => 'not-valid',
+        'user_secret' => @alice.secret,
+        'api_key' => @app_one.access_token
+      }
       # then
       response_json = JSON.parse(response.body)
       expect(response.status).to eql(expected_response)
@@ -48,7 +90,13 @@ describe Api::UsersController, :type => :controller do
         :last_name => 'Foo'
       )
       # when
-      post :create, new_user.as_json
+      post :create, {
+        :email => new_user.email,
+        :given_name => new_user.given_name,
+        :last_name => new_user.last_name,
+        :user_secret => @alice.secret,
+        :api_key => @app_one.access_token
+      }
       # then
       location = response.location
       expect(response.status).to eql(201)
@@ -62,7 +110,13 @@ describe Api::UsersController, :type => :controller do
       expected_response = 406
       expected_type = 'email_exists'
       # when
-      post :create, new_user.as_json
+      post :create, {
+        :email => new_user.email,
+        :given_name => new_user.given_name,
+        :last_name => new_user.last_name,
+        :user_secret => @alice.secret,
+        :api_key => @app_one.access_token
+      }
       # then
       response_json = JSON.parse(response.body)
       expect(response.status).to eql(expected_response)
@@ -75,7 +129,12 @@ describe Api::UsersController, :type => :controller do
       expected_response = 400
       expected_type = 'missing_parameter'
       # when
-      post :create, new_user.as_json
+      post :create, {
+        :email => new_user.email,
+        :given_name => new_user.given_name,
+        :user_secret => @alice.secret,
+        :api_key => @app_one.access_token
+      }
       # then
       response_json = JSON.parse(response.body)
       expect(response.status).to eql(expected_response)
