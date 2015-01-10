@@ -1,0 +1,20 @@
+complete: &default
+    uuid: <%= SecureRandom.uuid %>
+    description: 'Expense 1'
+    balance: 10000
+    recipient: alice
+    sender: bob
+
+alice_owes_bob:
+    <<: *default
+    uuid: <%= SecureRandom.uuid %>
+    balance: "Alice's car maintenance"
+    recipient: alice
+    sender: bob
+
+bob_owes_alice:
+    <<: *default
+    uuid: <%= SecureRandom.uuid %>
+    balance: "Bob's frying pan"
+    recipient: bob
+    sender: alice

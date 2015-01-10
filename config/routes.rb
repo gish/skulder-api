@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :users, :debts
+    resources :users, :transactions
   end
 end
