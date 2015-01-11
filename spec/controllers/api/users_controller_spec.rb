@@ -10,30 +10,6 @@ describe Api::UsersController, :type => :controller do
   end
 
 
-  describe 'Authorization' do
-    it 'should return error when user secret invalid' do
-      # given
-      expected_status = 401
-      # when
-      get :index, {
-        :api_key => @app_one.access_token
-      }
-      # then
-      expect(response.status).to eql(expected_status)
-    end
-
-    it 'should return error when api key invalid' do
-      # given
-      expected_status = 401
-      # when
-      get :index, {
-        :user_secret => @alice.secret
-      }
-      # then
-      expect(response.status).to eql(expected_status)
-    end
-  end
-
   describe 'Get all users' do
     it 'should get all users when no uuid given' do
       expected = User.all.order(:uuid).as_json
