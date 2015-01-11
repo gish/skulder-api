@@ -1,6 +1,4 @@
 class Api::UsersController < ApplicationController
-  before_filter :restrict_access
-
   def index
     users = User.all.order(:uuid).as_json
     render :json => users
@@ -58,16 +56,5 @@ class Api::UsersController < ApplicationController
         :last_name,
         :email
       )
-    end
-
-    def restrict_access
-      user_exists = User.exists?(:secret => params[:user_secret])
-      api_key_exists = ApiKey.exists?(:access_token => params[:api_key])
-
-      render_error(
-        'invalid_user',
-        'User secret or access token invalid',
-        401
-      ) unless (user_exists and api_key_exists)
     end
 end
