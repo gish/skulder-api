@@ -38,7 +38,7 @@ GET /users
 
 ### Get a specific user
 ```
-GET /users/:user_id
+GET /users/:id
 ```
 
 #### Response
