@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'spec_helper'
 
-describe Api::UsersController, :type => :controller do
+describe V1::UsersController, :type => :controller do
   fixtures :users, :api_keys
 
   before (:each) do
@@ -77,7 +77,7 @@ describe Api::UsersController, :type => :controller do
       location = response.location
       expect(response.status).to eql(201)
       expect(User.exists?(:email => new_user.email)).to be(true)
-      expect(location).to eql(api_user_url(User.where(:email => new_user.email).take.uuid))
+      expect(location).to eql(v1_user_url(User.where(:email => new_user.email).take.uuid))
     end
 
     it 'should output error when user with email already exists' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::TransactionsController, :type => :controller do
+RSpec.describe V1::TransactionsController, :type => :controller do
   fixtures :users, :transactions, :api_keys
 
   before (:each) do
@@ -25,7 +25,7 @@ RSpec.describe Api::TransactionsController, :type => :controller do
       post :create, @transaction
       # then
       expect(response.status).to eql(201)
-      expect(response.location).to eql(api_transaction_url(:id => Transaction.order(created_at: :desc).take.uuid))
+      expect(response.location).to eql(v1_transaction_url(:id => Transaction.order(created_at: :desc).take.uuid))
     end
 
 
