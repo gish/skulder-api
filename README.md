@@ -101,8 +101,7 @@ sender | integer | id of the sending user **optional**
 Body:
 ```
 [{
-    "uuid": "11dc7a30-d651-4888-8726-3aba9eb8f455",
-    "id": 1,
+    "id": "11dc7a30-d651-4888-8726-3aba9eb8f455",
     "recipient_id": 13,
     "sender_id": 9,
     "balance": 4200,

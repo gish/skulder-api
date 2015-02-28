@@ -74,7 +74,13 @@ module V1
         )
       end
 
-      render json: transactions
+      transactions_as_json = transactions.to_json
+      transactions_as_json = JSON.parse(transactions_as_json).map do |transaction|
+        transaction['id'] = transaction['uuid']
+        transaction.delete 'uuid'
+        transaction
+      end
+      render json: transactions_as_json
     end
   end
 end
