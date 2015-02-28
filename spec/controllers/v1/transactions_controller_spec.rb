@@ -198,5 +198,36 @@ RSpec.describe V1::TransactionsController, :type => :controller do
       given_transactions.sort! { |x,y| x['id'] <=> y['id'] }
       expect(given_transactions[0]['id']).to eql transactions[0].uuid
     end
+
+    it 'should replace senders internal id with public id' do
+      # given
+      sender = users(:alice)
+
+      # when
+      get :index, {
+        sender: sender.uuid,
+        api_key: @app_one.access_token,
+        user_secret: sender.secret
+      }
+      # then
+      given_transactions = JSON.parse(response.body)
+      expect(given_transactions[0]['sender_id']).to eql sender.uuid
+    end
+
+    it 'should replace recipients internal id with public id' do
+      # given
+      recipient = users(:alice)
+
+      # when
+      get :index, {
+        recipient: recipient.uuid,
+        api_key: @app_one.access_token,
+        user_secret: recipient.secret
+      }
+      # then
+      given_transactions = JSON.parse(response.body)
+      expect(given_transactions[0]['recipient_id']).to eql recipient.uuid
+    end
+
   end
 end
