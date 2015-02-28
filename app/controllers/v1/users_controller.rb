@@ -28,7 +28,7 @@ module V1
       user = User.new(user_params)
       user.save
 
-      render json: user.as_json, location: v1_user_url(user.uuid), status: 201
+      render nothing: true, location: v1_user_url(user.uuid), status: 201
     end
 
     def destroy

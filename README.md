@@ -68,17 +68,6 @@ last_name | string | Last name **required**
 #### Response
 Status: `201 Created`
 Location: `/users/029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08`
-Body:
-```
-{
-    "uuid": "029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08",
-    "email": "foo@bar.com",
-    "given_name": "Foo",
-    "last_name": "Bar",
-    "created_at": "2015-02-08T13:24:57.269Z",
-    "updated_at": "2015-02-08T13:24:57.269Z"
-}
-```
 
 ## Transactions
 
