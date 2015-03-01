@@ -67,6 +67,7 @@ last_name | string | Last name **required**
 
 #### Response
 Status: `201 Created`
+
 Location: `/users/029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08`
 
 ## Transactions
@@ -118,4 +119,5 @@ description | string | description of the transaction **required**
 
 #### Response
 Status: `201 Created`
+
 Location: `/transactions/029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08`
