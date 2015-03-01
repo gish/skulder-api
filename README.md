@@ -28,9 +28,9 @@ GET /users
     "updated_at": "2015-01-01T18:32:30.442Z"
 }, {
     "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
-    "email": “jane@doe.com”,
-    "given_name": “Jane”,
-    "last_name": “Doe”,
+    "email": "jane@doe.com",
+    "given_name": "Jane",
+    "last_name": "Doe",
     "created_at": "2015-01-04T07:35:46.621Z",
     "updated_at": "2015-01-04T07:35:46.621Z"
 }]
@@ -45,9 +45,9 @@ GET /users/:id
 ```
 {
     "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
-    "email": “jane@doe.com”,
-    "given_name": “Jane”,
-    "last_name": “Doe”,
+    "email": "jane@doe.com",
+    "given_name": "Jane",
+    "last_name": "Doe",
     "created_at": "2015-01-04T07:35:46.621Z",
     "updated_at": "2015-01-04T07:35:46.621Z"
 }
