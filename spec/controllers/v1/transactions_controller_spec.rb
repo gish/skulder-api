@@ -119,7 +119,7 @@ RSpec.describe V1::TransactionsController, :type => :controller do
       # given
       user = users(:alice)
       transactions = Transaction.where(:recipient => user)
-      expected_transactions_uuids = transactions.map {|transaction| transaction.uuid}
+      expected_transactions_ids = transactions.map {|transaction| transaction.uuid}
       # when
       get :index, {
         :recipient => user.uuid,
@@ -128,17 +128,17 @@ RSpec.describe V1::TransactionsController, :type => :controller do
       }
       # then
       given_transactions = JSON.parse(response.body)
-      given_transactions_uuids = given_transactions.map {|transaction| transaction['uuid']}
-      given_transactions_uuids.sort!
-      expect(given_transactions_uuids).to match_array(expected_transactions_uuids)
-      expect(given_transactions_uuids.length).not_to be(0)
+      given_transactions_ids = given_transactions.map {|transaction| transaction['id']}
+      given_transactions_ids.sort!
+      expect(given_transactions_ids).to match_array(expected_transactions_ids)
+      expect(given_transactions_ids.length).not_to be(0)
     end
 
     it 'should return transactions when sender given' do
       # given
       user = users(:alice)
       transactions = Transaction.where(:sender => user)
-      expected_transactions_uuids = transactions.map {|transaction| transaction.uuid}
+      expected_transactions_ids = transactions.map {|transaction| transaction.uuid}
       # when
       get :index, {
         :sender => user.uuid,
@@ -147,10 +147,10 @@ RSpec.describe V1::TransactionsController, :type => :controller do
       }
       # then
       given_transactions = JSON.parse(response.body)
-      given_transactions_uuids = given_transactions.map {|transaction| transaction['uuid']}
-      given_transactions_uuids.sort!
-      expect(given_transactions_uuids).to match_array(expected_transactions_uuids)
-      expect(given_transactions_uuids.length).not_to be(0)
+      given_transactions_ids = given_transactions.map {|transaction| transaction['id']}
+      given_transactions_ids.sort!
+      expect(given_transactions_ids).to match_array(expected_transactions_ids)
+      expect(given_transactions_ids.length).not_to be(0)
     end
 
     it 'should return transactions when recipient and sender given' do
@@ -161,7 +161,7 @@ RSpec.describe V1::TransactionsController, :type => :controller do
         :sender => sender,
         :recipient => recipient
       )
-      expected_transactions_uuids = transactions.map {|transaction| transaction.uuid}
+      expected_transactions_ids = transactions.map {|transaction| transaction.uuid}
       # when
       get :index, {
         sender: sender.uuid,
@@ -171,11 +171,63 @@ RSpec.describe V1::TransactionsController, :type => :controller do
       }
       # then
       given_transactions = JSON.parse(response.body)
-      given_transactions_uuids = given_transactions.map {|transaction| transaction['uuid']}
-      given_transactions_uuids.sort!
-      expect(given_transactions_uuids).to match_array(expected_transactions_uuids)
-      expect(given_transactions_uuids.length).not_to be(0)
+      given_transactions_ids = given_transactions.map {|transaction| transaction['id']}
+      given_transactions_ids.sort!
+      expect(given_transactions_ids).to match_array(expected_transactions_ids)
+      expect(given_transactions_ids.length).not_to be(0)
     end
-  end
 
+    it 'should replace internal id with public id' do
+      # given
+      sender = users(:alice)
+      recipient = users(:bob)
+      transactions = Transaction.where(
+        :sender => sender,
+        :recipient => recipient
+      ).order('uuid ASC')
+
+      # when
+      get :index, {
+        sender: sender.uuid,
+        recipient: recipient.uuid,
+        api_key: @app_one.access_token,
+        user_secret: sender.secret
+      }
+      # then
+      given_transactions = JSON.parse(response.body)
+      given_transactions.sort! { |x,y| x['id'] <=> y['id'] }
+      expect(given_transactions[0]['id']).to eql transactions[0].uuid
+    end
+
+    it 'should replace senders internal id with public id' do
+      # given
+      sender = users(:alice)
+
+      # when
+      get :index, {
+        sender: sender.uuid,
+        api_key: @app_one.access_token,
+        user_secret: sender.secret
+      }
+      # then
+      given_transactions = JSON.parse(response.body)
+      expect(given_transactions[0]['sender_id']).to eql sender.uuid
+    end
+
+    it 'should replace recipients internal id with public id' do
+      # given
+      recipient = users(:alice)
+
+      # when
+      get :index, {
+        recipient: recipient.uuid,
+        api_key: @app_one.access_token,
+        user_secret: recipient.secret
+      }
+      # then
+      given_transactions = JSON.parse(response.body)
+      expect(given_transactions[0]['recipient_id']).to eql recipient.uuid
+    end
+
+  end
 end

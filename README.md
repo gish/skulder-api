@@ -20,17 +20,17 @@ GET /users
 #### Response
 ```
 [{
-    "uuid": "1f68dc08-4f0a-47b9-b253-260e3af00377",
+    "id": "1f68dc08-4f0a-47b9-b253-260e3af00377",
     "email": "john@doe.com",
     "given_name": "John",
     "last_name": "Doe",
     "created_at": "2015-01-01T18:05:36.309Z",
     "updated_at": "2015-01-01T18:32:30.442Z"
 }, {
-    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
-    "email": “jane@doe.com”,
-    "given_name": “Jane”,
-    "last_name": “Doe”,
+    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "email": "jane@doe.com",
+    "given_name": "Jane",
+    "last_name": "Doe",
     "created_at": "2015-01-04T07:35:46.621Z",
     "updated_at": "2015-01-04T07:35:46.621Z"
 }]
@@ -44,10 +44,10 @@ GET /users/:id
 #### Response
 ```
 {
-    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
-    "email": “jane@doe.com”,
-    "given_name": “Jane”,
-    "last_name": “Doe”,
+    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "email": "jane@doe.com",
+    "given_name": "Jane",
+    "last_name": "Doe",
     "created_at": "2015-01-04T07:35:46.621Z",
     "updated_at": "2015-01-04T07:35:46.621Z"
 }
@@ -68,17 +68,6 @@ last_name | string | Last name **required**
 #### Response
 Status: `201 Created`
 Location: `/users/029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08`
-Body:
-```
-{
-    "uuid": "029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08",
-    "email": "foo@bar.com",
-    "given_name": "Foo",
-    "last_name": "Bar",
-    "created_at": "2015-02-08T13:24:57.269Z",
-    "updated_at": "2015-02-08T13:24:57.269Z"
-}
-```
 
 ## Transactions
 
@@ -101,10 +90,9 @@ sender | integer | id of the sending user **optional**
 Body:
 ```
 [{
-    "uuid": "11dc7a30-d651-4888-8726-3aba9eb8f455",
-    "id": 1,
-    "recipient_id": 13,
-    "sender_id": 9,
+    "id": "11dc7a30-d651-4888-8726-3aba9eb8f455",
+    "recipient_id": "7d835c59-db59-4e4f-acea-f4185e6debd5",
+    "sender_id": "1f68dc08-4f0a-47b9-b253-260e3af00377",
     "balance": 4200,
     "description": "An octopus",
     "created_at": "2015-02-08T13:42:31.990Z",
@@ -131,16 +119,3 @@ description | string | description of the transaction **required**
 #### Response
 Status: `201 Created`
 Location: `/transactions/029e3bd0-ddb1-4ba5-ad6d-4d4feaec1a08`
-Body:
-```
-{
-    "id": 2,
-    "uuid": "f4972e9e-bb56-4650-8bce-c314a4c5bf53",
-    "recipient_id": 13,
-    "sender_id": 9,
-    "balance": 4200,
-    "description": "A jar of cookies",
-    "created_at": "2015-02-08T13:58:46.911Z",
-    "updated_at": "2015-02-08T13:58:46.911Z"
-}
-```

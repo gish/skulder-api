@@ -40,7 +40,7 @@ module V1
         :sender => sender
       )
       transaction.save
-      render json: transaction.as_json, status: 201, location: v1_transaction_url(:id => transaction.uuid)
+      render nothing: true, status: 201, location: v1_transaction_url(:id => transaction.uuid)
     end
 
     def index
@@ -74,7 +74,15 @@ module V1
         )
       end
 
-      render json: transactions
+      transactions_as_json = transactions.map do |transaction|
+        transaction_hash = transaction.as_json
+        transaction_hash['id'] = transaction.uuid
+        transaction_hash['sender_id'] = transaction.sender.uuid
+        transaction_hash['recipient_id'] = transaction.recipient.uuid
+        transaction_hash.delete 'uuid'
+        transaction_hash
+      end
+      render json: transactions_as_json
     end
   end
 end
