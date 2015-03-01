@@ -20,14 +20,14 @@ GET /users
 #### Response
 ```
 [{
-    "uuid": "1f68dc08-4f0a-47b9-b253-260e3af00377",
+    "id": "1f68dc08-4f0a-47b9-b253-260e3af00377",
     "email": "john@doe.com",
     "given_name": "John",
     "last_name": "Doe",
     "created_at": "2015-01-01T18:05:36.309Z",
     "updated_at": "2015-01-01T18:32:30.442Z"
 }, {
-    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
     "email": “jane@doe.com”,
     "given_name": “Jane”,
     "last_name": “Doe”,
@@ -44,7 +44,7 @@ GET /users/:id
 #### Response
 ```
 {
-    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
     "email": “jane@doe.com”,
     "given_name": “Jane”,
     "last_name": “Doe”,

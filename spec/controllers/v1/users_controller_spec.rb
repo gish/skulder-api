@@ -22,6 +22,19 @@ describe V1::UsersController, :type => :controller do
       expect(users.length).to be(expected.length)
     end
 
+    it 'should replace internal id with public id' do
+      # given
+      expected_id = User.all.order(:uuid).take.uuid
+      # when
+      get :index, {
+        'user_secret' => @alice.secret,
+        'api_key' => @app_one.access_token
+      }
+      # then
+      given_users = JSON.parse(response.body)
+      expect(given_users[0]['id']).to eql(expected_id)
+    end
+
     it 'should get user when uuid given and user exists' do
       # given
       expected_user = users(:complete)

@@ -1,8 +1,15 @@
 module V1
   class UsersController < ApplicationController
     def index
-      users = User.all.order(:uuid).as_json
-      render :json => users
+      users = User.all.order(:uuid)
+
+      users_as_json = users.map do |user|
+        user_hash = user.as_json
+        user_hash['id'] = user.uuid
+        user_hash.delete 'uuid'
+        user_hash
+      end
+      render :json => users_as_json
     end
 
     def create
