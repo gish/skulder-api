@@ -44,7 +44,12 @@ module V1
           400
         ) and return
       end
-      render :json => user.as_json
+
+      user_hash = user.as_json
+      user_hash['id'] = user.uuid
+      user_hash.delete 'uuid'
+
+      render :json => user_hash
     end
 
     def update
