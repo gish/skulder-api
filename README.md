@@ -20,14 +20,14 @@ GET /users
 #### Response
 ```
 [{
-    "id": "1f68dc08-4f0a-47b9-b253-260e3af00377",
+    "uuid": "1f68dc08-4f0a-47b9-b253-260e3af00377",
     "email": "john@doe.com",
     "given_name": "John",
     "last_name": "Doe",
     "created_at": "2015-01-01T18:05:36.309Z",
     "updated_at": "2015-01-01T18:32:30.442Z"
 }, {
-    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
     "email": "jane@doe.com",
     "given_name": "Jane",
     "last_name": "Doe",
@@ -44,7 +44,7 @@ GET /users/:id
 #### Response
 ```
 {
-    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "uuid": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
     "email": "jane@doe.com",
     "given_name": "Jane",
     "last_name": "Doe",
@@ -91,7 +91,7 @@ sender | integer | id of the sending user **optional**
 Body:
 ```
 [{
-    "id": "11dc7a30-d651-4888-8726-3aba9eb8f455",
+    "uuid": "11dc7a30-d651-4888-8726-3aba9eb8f455",
     "recipient_id": "7d835c59-db59-4e4f-acea-f4185e6debd5",
     "sender_id": "1f68dc08-4f0a-47b9-b253-260e3af00377",
     "balance": 4200,
