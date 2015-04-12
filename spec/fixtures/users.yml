@@ -19,6 +19,18 @@ bob:
     email: 'bob@bar.com'
     given_name: 'Bob'
 
+charlie:
+    <<: *default
+    uuid: <%= SecureRandom.uuid %>
+    email: 'charlie@bar.com'
+    given_name: 'Charlie'
+
+dave:
+    <<: *default
+    uuid: <%= SecureRandom.uuid %>
+    email: 'dave@bar.com'
+    given_name: 'Dave'
+
 missing_last_name:
     <<: *default
     uuid: <%= SecureRandom.uuid %>

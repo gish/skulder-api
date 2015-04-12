@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
     validates :last_name, presence: true
     validates :email, presence: true
 
-    has_many :expenses, :class_name => 'Debt', :foreign_key => 'collector_id', :inverse_of => :collector, :dependent => :delete_all
-    has_many :debts, :class_name => 'Debt', :foreign_key => 'loaner_id', :inverse_of => :loaner, :dependent => :delete_all
+    has_many :expenses, :class_name => 'Transaction', :foreign_key => 'sender_id', :inverse_of => :sender, :dependent => :delete_all
+    has_many :debts, :class_name => 'Transaction', :foreign_key => 'recipient_id', :inverse_of => :recipient, :dependent => :delete_all
 
     after_initialize :defaults
 

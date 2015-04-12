@@ -53,6 +53,31 @@ GET /users/:id
 }
 ```
 
+### Get the user's friends
+A user's friends are users that have received or sent a transaction to the user
+```
+GET /users/:id/friends
+```
+
+#### Response
+```
+[{
+    "id": "9dd968f5-9f7f-494f-a38c-8dfb219c1ec0",
+    "email": "john@doe.com",
+    "given_name": "John",
+    "last_name": "Doe",
+    "created_at": "2015-01-04T07:35:46.621Z",
+    "updated_at": "2015-01-04T07:35:46.621Z"
+,
+    "id": "2ca44021-d194-41b2-95a9-cabe29384b43",
+    "email": "bob@doe.com",
+    "given_name": "Bob",
+    "last_name": "Doe",
+    "created_at": "2015-01-04T07:35:46.621Z",
+    "updated_at": "2015-01-04T07:35:46.621Z"
+}]
+
+```
 ### Create a user
 ```
 POST /users/
