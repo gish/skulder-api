@@ -76,10 +76,9 @@ module V1
 
       transactions_as_json = transactions.map do |transaction|
         transaction_hash = transaction.as_json
-        transaction_hash['id'] = transaction.uuid
         transaction_hash['sender_id'] = transaction.sender.uuid
         transaction_hash['recipient_id'] = transaction.recipient.uuid
-        transaction_hash.delete 'uuid'
+        transaction_hash.delete 'id'
         transaction_hash
       end
       render json: transactions_as_json
