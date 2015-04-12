@@ -53,8 +53,7 @@ module V1
       end
 
       user_hash = user.as_json
-      user_hash['id'] = user.uuid
-      user_hash.delete 'uuid'
+      user_hash.delete 'id'
 
       render :json => user_hash
     end
