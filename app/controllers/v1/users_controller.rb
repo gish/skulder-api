@@ -71,15 +71,22 @@ module V1
           400
         ) and return
       end
-      transactions_where_sender = Transaction.where(:sender => user)
-      recipients_hash = transactions_where_sender.map do |transaction|
+      transactions = Transaction.where(:sender => user)
+      recipients_hash = transactions.map do |transaction|
         recipient = transaction.recipient
         recipient_hash = recipient.as_json
-        recipient_hash['id'] = recipient.uuid
-        recipient_hash.delete 'uuid'
-        recipient
+        recipient_hash.delete 'id'
+        recipient_hash
       end
-      render :json => recipients_hash
+
+      transactions = Transaction.where(:recipient => user)
+      senders_hash = transactions.map do |transaction|
+        sender = transaction.sender
+        sender_hash = sender.as_json
+        sender_hash.delete 'id'
+        sender_hash
+      end
+      render :json => recipients_hash | senders_hash
     end
 
     private

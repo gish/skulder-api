@@ -5,12 +5,12 @@ complete: &default
     recipient: alice
     sender: bob
 
-alice_owes_bob:
+alice_owes_charlie:
     <<: *default
     uuid: <%= SecureRandom.uuid %>
     balance: "Alice's car maintenance"
     recipient: alice
-    sender: bob
+    sender: charlie
 
 bob_owes_alice:
     <<: *default

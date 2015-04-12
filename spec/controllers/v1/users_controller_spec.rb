@@ -132,22 +132,42 @@ describe V1::UsersController, :type => :controller do
   end
 
   describe 'Friends' do
-    it 'should return friends that have received a transaction from given user' do
+    it 'should include friends that have received a transaction from given user' do
       # given
       sender = users(:alice)
       transactions = Transaction.where(
         :sender => sender
       )
-      expected_recipients = transactions.map { |transaction| transaction.recipient }
+      expected_uuids = transactions.map { |transaction| transaction.recipient.uuid }
       # when
-      get 'friends', {
-        'id' => sender.uuid,
-        'user_secret' => sender.secret,
-        'api_key' => @app_one.access_token
+      get :friends, {
+        :id => sender.uuid,
+        :user_secret => sender.secret,
+        :api_key => @app_one.access_token
       }
       # then
       response_json = JSON.parse(response.body)
-      expect(response_json.length).to eql(expected_recipients.length)
+      response_uuids = response_json.map { |friend| friend['uuid'] }
+      expect(response_uuids).to include(*expected_uuids)
+    end
+
+    it 'should include friends that have sent a transaction to given user' do
+      # given
+      recipient = users(:alice)
+      transactions = Transaction.where(
+        :recipient => recipient
+      )
+      expected_uuids = transactions.map { |transaction| transaction.sender.uuid }
+      # when
+      get :friends, {
+        :id => recipient.uuid,
+        :user_secret => recipient.secret,
+        :api_key => @app_one.access_token
+      }
+      # then
+      response_json = JSON.parse(response.body)
+      response_uuids = response_json.map { |friend| friend['uuid'] }
+      expect(response_uuids).to include(*expected_uuids)
     end
   end
 end
