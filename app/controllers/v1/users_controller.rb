@@ -61,6 +61,27 @@ module V1
     def update
     end
 
+    def friends
+      uuid = params[:id]
+      user = User.where(:uuid => uuid).take
+      if user.blank?
+        render_error(
+          'user_not_found',
+          "User #{uuid} doesn't exist",
+          400
+        ) and return
+      end
+      transactions_where_sender = Transaction.where(:sender => user)
+      recipients_hash = transactions_where_sender.map do |transaction|
+        recipient = transaction.recipient
+        recipient_hash = recipient.as_json
+        recipient_hash['id'] = recipient.uuid
+        recipient_hash.delete 'uuid'
+        recipient
+      end
+      render :json => recipients_hash
+    end
+
     private
       def user_params
         params.permit(

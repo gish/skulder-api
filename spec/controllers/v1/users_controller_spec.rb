@@ -130,4 +130,24 @@ describe V1::UsersController, :type => :controller do
       expect(response_json['type']).to eql(expected_type)
     end
   end
+
+  describe 'Friends' do
+    it 'should return friends that have received a transaction from given user' do
+      # given
+      sender = users(:alice)
+      transactions = Transaction.where(
+        :sender => sender
+      )
+      expected_recipients = transactions.map { |transaction| transaction.recipient }
+      # when
+      get 'friends', {
+        'id' => sender.uuid,
+        'user_secret' => sender.secret,
+        'api_key' => @app_one.access_token
+      }
+      # then
+      response_json = JSON.parse(response.body)
+      expect(response_json.length).to eql(expected_recipients.length)
+    end
+  end
 end
