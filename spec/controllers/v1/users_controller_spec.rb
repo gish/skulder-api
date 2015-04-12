@@ -47,7 +47,7 @@ describe V1::UsersController, :type => :controller do
       # then
       returned_user = JSON.parse(response.body)
       assert_response :success
-      expect(returned_user['id']).to eql(expected_user.uuid)
+      expect(returned_user['uuid']).to eql(expected_user.uuid)
       expect(returned_user['given_name']).to eql(expected_user.given_name)
       expect(returned_user['last_name']).to eql(expected_user.last_name)
       expect(returned_user['email']).to eql(expected_user.email)
